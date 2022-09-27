@@ -1,0 +1,8 @@
+Sehr geehrte Eltern,
+
+Ihr Kind %s hat heute im Fach: %s ihre Hausaufgaben nicht gehabt. Dies ist das %d Mal.
+Diese E-Mail ist automatisiert. Bitte kontaktieren sie mich wenn sie Fragen haben.
+
+Mit Freundlichen Grüßen
+
+Annette Budig
