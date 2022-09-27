@@ -1,5 +1,3 @@
-from lzma import is_check_supported
-from turtle import update
 import db_connect as db
 import sys
 from PyQt6 import  QtCore, QtGui, QtWidgets
@@ -140,8 +138,7 @@ class MainWindow(QMainWindow):
     def get_new_table(self, index):
         self.db_klasse = self.comboBox_klassen.itemText(index)
         self.fach = 1
-        self.update_table()
-    
+        self.update_table() 
     def update_table(self):
         db_data = db.query_name_num(self.db_klasse, self.fach)
         self.comboBox_fach.clear()
@@ -174,9 +171,7 @@ class MainWindow(QMainWindow):
         self.msg.setDetailedText(detailed_text)
         
         retval = self.msg.exec()
-        print ("value of pressed message box button:", retval)
-    
-    
+        print ("value of pressed message box button:", retval) 
     def msgbtn(self, button):
             
         if button == 'Cancle':
