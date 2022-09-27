@@ -7,7 +7,7 @@ from email.mime.text import MIMEText
 msg = "Hello World"
 print(msg)
 
-def read_email_config(filename='config.ini', section='email'):
+def read_email_config(filename='src/config.ini', section='email'):
     # create parser and read ini configuration file
     parser = ConfigParser()
     parser.read(filename)
@@ -47,7 +47,7 @@ def send_email(recipient_email = RECIPIENT_ADDRESS, amount = 1):
     message['Subject'] = "Automatische E-Mail Hausaufgaben Vergessen"
 
 # Creation of a MIMEText Part
-    file = open('automated_email.txt')
+    file = open('src/automated_email.txt')
     txt = file.readlines()
     file.close()
     text = ''
