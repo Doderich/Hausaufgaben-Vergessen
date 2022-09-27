@@ -167,7 +167,7 @@ def delete_row(table,id):
 def show_tables():
     db_config = read_db_config()
 
-    query = "Show Tables"
+    query = "Show Tables;"
 
     try:
         # connect to the database server
@@ -179,7 +179,7 @@ def show_tables():
         res_all = cursor.fetchall()
         res = []
         for x in res_all:
-            res.append(x[0].decode())
+            res.append(x[0])
 
         # accept the change
         conn.commit()
@@ -265,4 +265,4 @@ if __name__ == '__main__':
     #query_with_fetchall(db_klasse)
     #print(get_faecher(db_klasse))
     #print(query_name_num(db_klasse))
-    print(get_fach_name('klasse_5_d', 'fach_1'))
+    print(show_tables())

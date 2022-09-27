@@ -1,4 +1,5 @@
 import db_connect as db
+import button_signals as bs
 import sys
 from PyQt6 import  QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, 
@@ -8,8 +9,7 @@ from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, QH
 from PyQt6.QtCore import Qt, QSize
 
 
-class MainWindow(QMainWindow):
-
+class MainWindow(QMainWindow,bs.Button_comands):
     def __init__(self):
         super(MainWindow, self).__init__()
         #'Global variables'
@@ -43,6 +43,8 @@ class MainWindow(QMainWindow):
         button_klasse_create = QPushButton('Hinzufügen')
         button_klasse_delete = QPushButton('Entfernen')
         button_selected_apply = QPushButton('Abschicken')
+        button_add_student = QPushButton('ADD Student')
+        button_delete_student = QPushButton('DELETE Student')
         
         #CheckBox
         self.checkbox_klassen = QCheckBox()
@@ -52,7 +54,7 @@ class MainWindow(QMainWindow):
         self.table = QtWidgets.QTableView()
         print(self.fach)
         data = db.query_name_num(self.db_klasse, self.fach)
-        self.model = TableModel(data)
+        self.model = bs.TableModel(data)
         self.table.setModel(self.model)
         
         self.list_widget = QListWidget()
@@ -62,6 +64,7 @@ class MainWindow(QMainWindow):
         vlayout = QVBoxLayout()
         h1layout = QHBoxLayout()
         h2layout = QHBoxLayout()
+        h3layout = QHBoxLayout()
         
         h1layout.addWidget(lable_klassen)
         h1layout.addWidget(self.comboBox_klassen)
@@ -71,11 +74,17 @@ class MainWindow(QMainWindow):
         h1layout.addStretch()
         h1layout.addWidget(self.checkbox_klassen)
         h1layout.addWidget(button_selected_apply)
+        
         h2layout.addWidget(self.table)
         h2layout.addWidget(self.list_widget)
-                
+         
+        h3layout.addWidget(button_add_student)
+        h3layout.addWidget(button_delete_student)
+        h3layout.addStretch()       
+        
         vlayout.addLayout(h1layout)
         vlayout.addLayout(h2layout)
+        vlayout.addLayout(h3layout)
         widget = QWidget()
         widget.setLayout(vlayout)
         self.setCentralWidget(widget)
@@ -88,7 +97,7 @@ class MainWindow(QMainWindow):
         button_selected_apply.clicked.connect(self.show_msg)
         
 
-    
+    """
     def create_button_pressed(self):
         double = False
         ls = self.table.selectedIndexes()
@@ -115,7 +124,6 @@ class MainWindow(QMainWindow):
                     })
                 double = False
         self.update_ls()
-
     def delete_button_pressed(self):
         if self.selected is not None:
             ls = self.table.selectedIndexes()
@@ -126,7 +134,8 @@ class MainWindow(QMainWindow):
                         print(self.selected[y]['id'])
                         del self.selected[y]
                         break
-        self.update_ls()   
+        self.update_ls()
+    """
     def get_new_subject(self, index):
         self.comboBox_fach.itemText(index)
         ind  = index + 1
@@ -146,12 +155,13 @@ class MainWindow(QMainWindow):
         self.comboBox_fach.addItems(sub_names)
         print("New Data:")
         #print(db_data)
-        self.table.setModel(TableModel(db_data))  
+        self.table.setModel(bs.TableModel(db_data))  
     def update_ls(self):
         self.list_widget.clear()
         for x in range(len(self.selected)):
         #for str in self.selected[0]['name']:
             self.list_widget.addItem(self.selected[x]['name'])
+    """
     def show_msg(self):
         self.msg = QMessageBox()
         self.msg.setIcon(QMessageBox.Icon.Question)
@@ -184,11 +194,12 @@ class MainWindow(QMainWindow):
                 anzahl = db.get_fach_amount_by_id(self.db_klasse, id) + 1
                 db.update_row(self.db_klasse, id, self.fach, anzahl)
             self.update_table()  
+    """
     def is_checkbox_checked(self):
         return self.checkbox_klassen.isChecked()
         
     
-
+"""
 class TableModel(QtCore.QAbstractTableModel):
     def __init__(self, data):
         super(TableModel, self).__init__()
@@ -209,7 +220,7 @@ class TableModel(QtCore.QAbstractTableModel):
         # The following takes the first sub-list, and returns
         # the length (only works if all rows are an equal length)
         return len(self._data[0])
-
+"""
 app = QApplication(sys.argv)
 
 window = MainWindow()
