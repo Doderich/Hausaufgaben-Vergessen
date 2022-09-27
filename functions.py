@@ -4,7 +4,6 @@ from PyQt6.QtWidgets import QMessageBox, QTableView
 from PyQt6.QtCore import Qt, QSize, QAbstractTableModel
 
 class Button_comands:
-        
     def create_button_pressed(self):
         double = False
         ls = self.table.selectedIndexes()
