@@ -1,5 +1,5 @@
 import db_connect as db
-import functions as fn
+import gui_functions as fn
 import sys
 from PyQt6 import  QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, 

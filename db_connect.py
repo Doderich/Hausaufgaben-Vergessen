@@ -94,18 +94,18 @@ def query_name_num(table, fach):
         cursor.close()
         conn.close()
         return res
-def insert_row(table, name, email, fach):
-    query = "INSERT INTO " + table + "(name,email,fach) " \
-            "VALUES(%s,%s,%s)"
-    print(query)
-    args = ( name, email, fach)
+def insert_row(table, fach, fach_amount, name, email):
+    query = "INSERT INTO " + table + "(name,email,fach_"+ str(fach) +"," + int_to_fach_amount(fach)+") " \
+            "VALUES(%s,%s,%s,%s)"
+    args = ( name, email,'0',str(fach_amount))
+    print(query % args)
 
     try:
         db_config = read_db_config()
         conn = MySQLConnection(**db_config)
 
         cursor = conn.cursor()
-        cursor.execute(query, args)
+        cursor.execute(query  % args)
 
         if cursor.lastrowid:
             print('last insert id', cursor.lastrowid)
@@ -256,13 +256,7 @@ def selc_dict(ls, str):
         newls.append(ls[x][str])
     return newls
 
+
 if __name__ == '__main__':
-    #insert_row(db_klasse,'Elisabeth','elisabeth@g.de','0')
-    #update_row(db_klasse, '5', '1',  '10')
-    #print(query_with_fetchall(db_klasse))
-    #print(search_id_name(db_klasse, '1'))
-    #delete_row(db_klasse,"30")
-    #query_with_fetchall(db_klasse)
-    #print(get_faecher(db_klasse))
-    #print(query_name_num(db_klasse))
-    print(show_tables())
+    insert_row(db_klasse, 1 ,1, 'Helga Scholzs', 'bud@wolke7.net')
+    print(query_with_fetchall(db_klasse))
