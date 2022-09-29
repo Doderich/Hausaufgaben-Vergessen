@@ -115,6 +115,8 @@ class MainWindow(QMainWindow,fn.Button_comands):
         self.list_widget.clear()
         for x in range(len(self.selected)):
             self.list_widget.addItem(self.selected[x]['name'])
+    def is_checkbox_checked(self):
+        return self.checkbox_klassen.isChecked()
 app = QApplication(sys.argv)
 
 window = MainWindow()
