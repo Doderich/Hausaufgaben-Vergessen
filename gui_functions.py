@@ -3,32 +3,23 @@ import sys
 from PyQt6.QtWidgets import QMessageBox, QTableView
 from PyQt6.QtCore import Qt, QSize, QAbstractTableModel
 
-class Button_comands:
+class Button_comands():
     def create_button_pressed(self):
-        double = False
+        is_double = False
         ls = self.table.selectedIndexes()
         
-        if self.selected is None:
-            for x in ls:
-                id = x.row() + 1
-                name = db.search_id_name(self.db_klasse, str(id))
-                self.selected.append({
-                    'name': name,
-                    'id': int(id)
-                })
-        else:
-            for x in ls:
-                id = x.row() + 1
-                for y in range(len(self.selected)):
-                    if id == self.selected[y]['id']:
-                        double = True
-                if not double:
-                    name = db.search_id_name(self.db_klasse, str(id))
-                    self.selected.append({
-                        'name': name,
-                        'id': int(id)
-                    })
-                double = False
+        for item in ls:
+            column_id = item.row() + 1 
+            if self.selected is None:
+                name = db.search_id_name(self.db_klasse, str(column_id))
+                self.selected.append({'name': name,'id': int(column_id)})
+            else:
+                for i in range(len(self.selected)):
+                    if column_id == self.selected[i]['id']:
+                        is_double = True
+                if not is_double:
+                    name = db.search_id_name(self.db_klasse, str(column_id))
+                    self.selected.append({'name': name,'id': int(column_id)})                            
         self.update_ls()
     def delete_button_pressed(self):
         if self.selected is not None:
@@ -94,4 +85,4 @@ class TableModel(QAbstractTableModel):
     def columnCount(self, index):
         # The following takes the first sub-list, and returns
         # the length (only works if all rows are an equal length)
-        return len(self._data[0])
+        return len(self._data[0])      
