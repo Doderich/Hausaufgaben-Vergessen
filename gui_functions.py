@@ -25,9 +25,9 @@ class Button_comands():
         if self.selected is not None:
             ls = self.table.selectedIndexes()
             for x in ls:
-                id = x.row() +1
+                column_id = x.row() +1
                 for y in range(len(self.selected)):
-                    if id == self.selected[y]['id']:
+                    if column_id == self.selected[y]['id']:
                         print(self.selected[y]['id'])
                         del self.selected[y]
                         break
@@ -59,11 +59,10 @@ class Button_comands():
             self.msg.close()
         else:
             self.msg.close()
-            ls = []
             for i in range(len(self.selected)):
-                id = self.selected[i]['id']
-                anzahl = db.get_fach_amount_by_id(self.db_klasse, id) + 1
-                db.update_row(self.db_klasse, id, self.fach, anzahl)
+                column_id = self.selected[i]['id']
+                anzahl = db.get_fach_amount_by_id(self.db_klasse, column_id) + 1
+                db.update_row(self.db_klasse, column_id, self.fach, anzahl)
             self.update_table()
             
 class TableModel(QAbstractTableModel):
