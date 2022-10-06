@@ -1,6 +1,5 @@
 from mysql.connector import MySQLConnection, Error
 from configparser import ConfigParser
-import string
 
 db_klasse= "klasse_5_d"
 def read_db_config(filename='src/config.ini', section='mysql'):
@@ -63,13 +62,13 @@ def _send_query_one(query):
     try:
         cursor.execute(query)
         res  = cursor.fetchone()[0]
+        return res   
     
     except Error as e:
         print(e)
     finally:
         cursor.close()
         conn.close()
-        return res   
 def _send_query_all(query):
     dbconfig = read_db_config()
     conn = MySQLConnection(**dbconfig)
@@ -77,53 +76,32 @@ def _send_query_all(query):
     try:
         cursor.execute(query)
         res  = cursor.fetchall()
-    
-    except Error as e:
-        print(e)
-    finally:
-        cursor.close()
-        conn.close()
         return res        
     
-    
-def query_with_fetchall(table):
-    try:
-        dbconfig = read_db_config()
-        conn = MySQLConnection(**dbconfig)
-        cursor = conn.cursor()
-        
-        cursor.execute("SELECT * FROM " + table)
-
-        res = cursor.fetchall()
-
     except Error as e:
         print(e)
-
     finally:
         cursor.close()
         conn.close()
-        return res
+    
+
 def search_id_name(table, id):
     try:
         query = "SELECT name FROM " + table + " WHERE id = " + id
         res_all = _send_query_one(query)
+        return res_all
     except Error as e:
         print(e)
 
-    finally:
-        return res_all
 def query_name_num(table, fach):
     try:
         query = "SELECT name, "+ int_to_fach_amount(fach) + " FROM " + table
         print(query)
         res = _send_query_all(query)
         print(res)
-
+        return res
     except Error as e:
         print(e)
-
-    finally:
-        return res
 def insert_row(table, fach, fach_amount, name, email):
     query = "INSERT INTO " + table + "(name,email,fach_"+ str(fach) +"," + int_to_fach_amount(fach)+") " \
             "VALUES(%s,%s,%s,%s)"
@@ -143,11 +121,9 @@ def update_row(table, id, fach, fach_amount):
     except Error as error:
         print(error)
 def delete_row(table,id):
-    query = "DELETE FROM "+ table +" WHERE id = %s"
-
+    query = "DELETE FROM "+ table +" WHERE id =" + str(id)
     try:
-        _send_query_none(query, (id,))
-
+        _send_query_none(query)
     except Error as error:
         print(error)
 def show_tables():
@@ -158,20 +134,17 @@ def show_tables():
         for x in res_all:
             res.append(x[0])
         # accept the change
+        return list(res)
         
     except Error as error:
         print(error)
-
-    finally:
-        return list(res)
 def get_fach_amount_by_id(table, id):
     try:
         query = "SELECT fach_1_amount FROM "+ table + " WHERE id = "+ str(id)
         res = _send_query_one(query)
+        return res
     except Error as e:
         print(e)
-    finally:
-        return res
 def _get_faecher(table):
     try:
         query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table + "'"
@@ -179,19 +152,17 @@ def _get_faecher(table):
         ls = []
         for elm in res:
           ls.append(elm[0]) 
+        return ls
     
     except Error as e:
         print(e)
-    finally:
-        return ls
 def get_fach_name(table, column_name):
     try:
         query = "SELECT "+ column_name +" FROM "+ table +" WHERE id = 1"
         res = _send_query_one(query) 
+        return res
     except Error as e:
         print(e)
-    finally:
-        return res
 def get_faecher_ls(db_klasse):
         ls = []
         for fach in _get_faecher(db_klasse):
@@ -209,5 +180,4 @@ def selc_dict(ls, str):
     return newls
 
 if __name__ == '__main__':
-    insert_row(db_klasse, 1 ,1, 'Helga Scholzs', 'bud@wolke7.net')
-    print(query_with_fetchall(db_klasse))
+    print(connect())
