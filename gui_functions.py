@@ -4,15 +4,18 @@ from PyQt6.QtWidgets import QMessageBox, QTableView
 from PyQt6.QtCore import Qt, QSize, QAbstractTableModel
 
 class Button_comands():
+    
     def create_button_pressed(self):
         is_double = False
         ls = self.table.selectedIndexes()
+        
         
         for item in ls:
             column_id = item.row() + 1 
             if self.selected is None:
                 name = db.search_id_name(self.db_klasse, str(column_id))
                 self.selected.append({'name': name,'id': int(column_id)})
+            #We need to check if the new names added are duplicates
             else:
                 for i in range(len(self.selected)):
                     if column_id == self.selected[i]['id']:
@@ -21,7 +24,9 @@ class Button_comands():
                     name = db.search_id_name(self.db_klasse, str(column_id))
                     self.selected.append({'name': name,'id': int(column_id)})                            
         self.update_ls()
+    
     def delete_button_pressed(self):
+        #We search in seleced for the item
         if self.selected is not None:
             ls = self.table.selectedIndexes()
             for x in ls:
@@ -32,7 +37,10 @@ class Button_comands():
                         del self.selected[y]
                         break
         self.update_ls()
+    
+    #This Function creates a mesg Box which askes the User to confirm their choice.
     def show_msg(self):
+
         self.msg = QMessageBox()
         self.msg.setIcon(QMessageBox.Icon.Question)
         self.msg.setWindowTitle("Bestätigung")    
@@ -49,12 +57,9 @@ class Button_comands():
         for elm in range(len(self.selected)):
             detailed_text = detailed_text + '\n' + self.selected[elm]['name']
         self.msg.setDetailedText(detailed_text)
-        
-        retval = self.msg.exec()
-        print ("value of pressed message box button:", retval) 
+        self.msg.exec()
     
     def msgbtn(self, button):
-            
         if button == 'Cancle':
             self.msg.close()
         else:

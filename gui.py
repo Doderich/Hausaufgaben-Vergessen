@@ -13,9 +13,11 @@ class MainWindow(QMainWindow,fn.Button_comands):
     def __init__(self):
         super(MainWindow, self).__init__()
         #'Global variables'
-        self.db_klasse= "klasse_5_d"
-        self.fach = 1
+        self.db_klasse= "klasse_5_d" # Default Value from my database
+        self.fach = 1 # Default select subject one
         print(self.fach)
+        
+        #seleceted keeps track of the the seleced names
         self.selected = []
 
         self.setWindowTitle("HA Vergessen")
@@ -102,6 +104,7 @@ class MainWindow(QMainWindow,fn.Button_comands):
         if self.fach is not ind:
             self.fach = ind
             self.update_table()
+    
     def get_new_table(self, index):
         self.db_klasse = self.comboBox_klassen.itemText(index)
         self.fach = 1
@@ -111,10 +114,12 @@ class MainWindow(QMainWindow,fn.Button_comands):
         self.comboBox_fach.clear()
         self.comboBox_fach.addItems(db.get_faecher_ls(self.db_klasse))
         self.table.setModel(fn.TableModel(db_data))  
+    
     def update_ls(self):
         self.list_widget.clear()
         for x in range(len(self.selected)):
             self.list_widget.addItem(self.selected[x]['name'])
+    
     def is_checkbox_checked(self):
         return self.checkbox_klassen.isChecked()
 app = QApplication(sys.argv)

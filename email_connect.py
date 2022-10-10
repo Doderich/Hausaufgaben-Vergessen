@@ -47,9 +47,9 @@ def send_email(recipient_email = RECIPIENT_ADDRESS, amount = 1):
     message['Subject'] = "Automatische E-Mail Hausaufgaben Vergessen"
 
 # Creation of a MIMEText Part
-    file = open('src/automated_email.txt')
-    txt = file.readlines()
-    file.close()
+    email_text = open('src/automated_email.txt')
+    txt = email_text.readlines()
+    email_text.close()
     text = ''
     for line in txt:
        text = text + line 
