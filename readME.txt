@@ -9,4 +9,6 @@ The connection to the Database is handeled by db_connect.py which connects to a 
 
 The automated email service is already possible but currently not impleted because it would spam my emails.
 
+The confg.ini file referenced in the code is not avalable on the public reposetorie because my lgoin Information is stored there :P
+
 Hopfluy this gave a overview over my project :D
